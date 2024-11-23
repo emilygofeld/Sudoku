@@ -1,4 +1,4 @@
-package com.emily.mindoku.ui.theme
+package com.emily.sudoku.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

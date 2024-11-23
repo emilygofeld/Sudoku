@@ -1,4 +1,4 @@
-package com.emily.mindoku.game
+package com.emily.sudoku.game
 
 
 object GenerateGame {

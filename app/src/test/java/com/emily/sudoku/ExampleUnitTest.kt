@@ -1,4 +1,4 @@
-package com.emily.mindoku
+package com.emily.sudoku
 
 import org.junit.Test
 
