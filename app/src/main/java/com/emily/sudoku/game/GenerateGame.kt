@@ -1,6 +1,5 @@
 package com.emily.sudoku.game
 
-
 object GenerateGame {
     private fun generateFullBoard(): Array<IntArray> {
         val board = Array(9) {IntArray(9) {0}}
@@ -9,26 +8,31 @@ object GenerateGame {
     }
 
     private fun fillBoard(board: Array<IntArray>): Boolean {
-        for (row in 0..8) {
-            for (col in 0..8) {
-                if (board[row][col] == 0) {
-                    val options = (1..9).shuffled()
-                    for (option in options) {
-                        if (isPlacementLegal(board, row, col, option)) {
-                            board[row][col] = option
-                            if (fillBoard(board)) {
-                                return true
-                            }
-                            board[row][col] = 0
-                        }
-                    }
-                }
-                return false
-            }
-        }
-        return true
+        return fillCell(board, 0, 0)
     }
 
+    private fun fillCell(board: Array<IntArray>, row: Int, col: Int): Boolean {
+        if (row == 9) return true // Reached the end of the board
+
+        val nextRow = if (col == 8) row + 1 else row
+        val nextCol = if (col == 8) 0 else col + 1
+
+        if (board[row][col] != 0) {
+            return fillCell(board, nextRow, nextCol)
+        }
+
+        val options = (1..9).shuffled()
+        for (option in options) {
+            if (isPlacementLegal(board, row, col, option)) {
+                board[row][col] = option
+                if (fillCell(board, nextRow, nextCol)) {
+                    return true
+                }
+                board[row][col] = 0
+            }
+        }
+        return false
+    }
 
     private fun isPlacementLegal(board: Array<IntArray>, row: Int, col: Int, num: Int): Boolean {
         for (i in 0..8) {
@@ -61,35 +65,46 @@ object GenerateGame {
         return gameBoard
     }
 
-    // function solves board and then returns if more than one solution was found
+    // Function to solve the board and return the count of solutions
     private fun solveBoard(board: Array<IntArray>, count: Int = 0): Int {
+        return solve(board, 0, 0, count)
+    }
+
+    // Helper function to solve the board recursively
+    private fun solve(board: Array<IntArray>, row: Int, col: Int, count: Int): Int {
+        if (row == 9) return count + 1 // Solved entire board
+
+        if (board[row][col] != 0) return solve(board, nextRow(row, col), nextCol(col), count)
+
         var solutionCount = count
-        for (row in 0..8) {
-            for (col in 0..8) {
-                if (board[row][col] == 0) {
-                    for (num in 1..9) {
-                        if (isPlacementLegal(board, row, col, num)) {
-                            board[row][col] = num
-                            solutionCount = solveBoard(board, solutionCount)
-                            if (solutionCount > 1) return solutionCount
-                            board[row][col] = 0
-                        }
-                    }
-                    return solutionCount
-                }
+        for (num in 1..9) {
+            if (isPlacementLegal(board, row, col, num)) {
+                board[row][col] = num
+                solutionCount = solve(board, nextRow(row, col), nextCol(col), solutionCount)
+                if (solutionCount > 1) return solutionCount // Early exit if more than one solution
+                board[row][col] = 0
             }
         }
-        return solutionCount + 1
+        return solutionCount
+    }
+
+    private fun nextRow(row: Int, col: Int): Int {
+        return if (col == 8) row + 1 else row
+    }
+
+    private fun nextCol(col: Int): Int {
+        return if (col == 8) 0 else col + 1
     }
 
     fun validatedGameBoard(difficultyLevel: DifficultyLevel): Array<IntArray> {
         lateinit var board: Array<IntArray>
         do {
             board = createGameBoard(difficultyLevel)
-        } while (solveBoard(board) != 1) // iterating until theres a board with a unique solution
+        } while (solveBoard(board) != 1) // Iterate until there's a board with a unique solution
 
         return board
     }
+
 }
 
 
