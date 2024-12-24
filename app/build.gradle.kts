@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.emily.mindoku"
-    compileSdk = 34
+    namespace = "com.emily.sudoku"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.emily.mindoku"
+        applicationId = "com.emily.sudoku"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

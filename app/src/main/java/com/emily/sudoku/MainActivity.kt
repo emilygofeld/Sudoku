@@ -4,19 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.emily.sudoku.core.Screen
-import com.emily.sudoku.presentation.screens.DifficultyScreen
-import com.emily.sudoku.presentation.viewmodel.DifficultyViewModel
+import com.emily.sudoku.presentation.board.BoardScreen
+import com.emily.sudoku.presentation.level.ChooseLevelScreen
+import com.emily.sudoku.presentation.level.viewmodel.ChooseLevelViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -28,16 +24,13 @@ class MainActivity : ComponentActivity() {
 
             NavHost(navController = navController, startDestination = Screen.DifficultyScreen.route) {
                 composable(Screen.DifficultyScreen.route) {
-                    DifficultyScreen(vm = DifficultyViewModel(), navController = navController)
-                    Box(
-                        modifier = Modifier.fillMaxSize().background(color = Color.Blue)
-                    )
+                    ChooseLevelScreen(vm = ChooseLevelViewModel(), navController = navController)
                 }
                 composable(
                     route = Screen.GameScreen.ROUTE,
                     arguments = listOf(navArgument("difficulty") {type = NavType.StringType})
                 ) {
-//                    BoardScreen(navController = navController)
+                    BoardScreen() //navController = navController
                 }
             }
         }
