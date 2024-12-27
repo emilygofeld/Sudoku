@@ -12,7 +12,7 @@ import androidx.navigation.navArgument
 import com.emily.sudoku.core.Screen
 import com.emily.sudoku.game.DifficultyLevel
 import com.emily.sudoku.presentation.board.SudokuGameScreen
-import com.emily.sudoku.presentation.board.viewmodel.BoardViewModel
+import com.emily.sudoku.presentation.board.viewmodel.GameViewModel
 import com.emily.sudoku.presentation.level.ChooseLevelScreen
 import com.emily.sudoku.presentation.level.viewmodel.ChooseLevelViewModel
 
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                             throw IllegalArgumentException("Invalid difficulty level: $arg")
                         }
                     } ?: throw IllegalArgumentException("Difficulty level is required")
-                    SudokuGameScreen(BoardViewModel(level))
+                    SudokuGameScreen(GameViewModel(level))
                 }
             }
         }
