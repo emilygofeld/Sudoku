@@ -60,7 +60,7 @@ fun ChooseLevelScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Choose Difficulty",
+            text = "Choose difficulty level",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 24.dp)
         )

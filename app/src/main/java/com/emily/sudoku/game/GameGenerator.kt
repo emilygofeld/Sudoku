@@ -1,6 +1,6 @@
 package com.emily.sudoku.game
 
-object GenerateGame {
+object GameGenerator {
     private fun generateFullBoard(): Array<IntArray> {
         val board = Array(9) {IntArray(9) {0}}
         fillBoard(board)
@@ -81,7 +81,7 @@ object GenerateGame {
             if (isPlacementLegal(board, row, col, num)) {
                 board[row][col] = num
                 solutionCount = solve(board, nextRow(row, col), nextCol(col), solutionCount)
-                if (solutionCount > 1) return solutionCount // Early exit if more than one solution
+                if (solutionCount > 1) return solutionCount
                 board[row][col] = 0
             }
         }
@@ -96,7 +96,7 @@ object GenerateGame {
         return if (col == 8) 0 else col + 1
     }
 
-    fun validatedGameBoard(difficultyLevel: DifficultyLevel): Array<IntArray> {
+    fun generateUniqueSudokuBoard(difficultyLevel: DifficultyLevel): Array<IntArray> {
         lateinit var board: Array<IntArray>
         do {
             board = createGameBoard(difficultyLevel)
@@ -104,7 +104,6 @@ object GenerateGame {
 
         return board
     }
-
 }
 
 
